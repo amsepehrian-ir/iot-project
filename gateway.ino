@@ -1,7 +1,5 @@
-
 #include "ESP8266WiFi.h"
 #include "ESP8266HTTPClient.h"
-#include <SPI.h>
 #include <LoRa.h>
 
 
@@ -13,10 +11,9 @@ const char* password = "11111111";
 #define dio0 4  // D2 ตั้งค่า GPIO4
 
 const char * headerKeys[] = {"Set-Cookie"} ;
-const size_t numberOfHeaders = 2;
+const size_t numberOfHeaders = 1;
 
 String sessionid;
-int test = 4521;
 String login()
 {
   String temp;
@@ -95,26 +92,20 @@ void loop() {
 void onReceive(int packetSize) {
   // received a packet
   Serial.println("Received packet '");
-  char lang[5];
-  char lat[5];
-  char hb[3];
-  char id[10];
-  char stat[1];
-  
+  string packet[5] = "";
  
   // read packet
   int j = 0;
   for (int i = 0; i < packetSize; i++) {
     char a = (char)LoRa.read();
-    if (a != ','){
-    if (j==0)
-    lang += a;
-    }a
+    if (a != ',')
+    packet[j] += a;
     else
     j++;
 	  }
+ 
 
-	  Serial.println(lang);
+	  Serial.println(packet[0]);
 
 	    if (WiFi.status() == WL_CONNECTED) { //Check WiFi connection status
 
